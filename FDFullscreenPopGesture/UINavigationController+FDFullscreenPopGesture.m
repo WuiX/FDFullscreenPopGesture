@@ -44,6 +44,14 @@
         return NO;
     }
     
+    // 兼容RTRootNavigationController库
+    if ([NSStringFromClass(topViewController.class) isEqualToString:@"RTContainerController"]) {
+        UIViewController *vc = [topViewController valueForKey:@"contentViewController"];
+        if (vc && vc.fd_interactivePopDisabled) {
+            return NO;
+        }
+    }
+    
     // Ignore when the beginning location is beyond max allowed initial distance to left edge.
     CGPoint beginningLocation = [gestureRecognizer locationInView:gestureRecognizer.view];
     CGFloat maxAllowedInitialDistance = topViewController.fd_interactivePopMaxAllowedInitialDistanceToLeftEdge;
